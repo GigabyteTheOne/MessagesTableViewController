@@ -31,6 +31,18 @@
     return self;
 }
 
+- (instancetype)initWithText:(NSString *)text
+                       image:(UIImage *)image
+                      sender:(NSString *)sender
+                        date:(NSDate *)date
+{
+    self = [self initWithText:text sender:sender date:date];
+    if (self) {
+        _image = image;
+    }
+    return self;
+}
+
 - (void)dealloc
 {
     _text = nil;

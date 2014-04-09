@@ -24,6 +24,9 @@
 #define kPaddingBottom 8.0f
 #define kBubblePaddingRight 35.0f
 
+#define kBubleViewWithImageWidth 250.0f
+#define kImageHeight 120.0f
+
 
 @interface JSBubbleView()
 
@@ -89,6 +92,13 @@
         
         [self addTextViewObservers];
         
+        UIImageView *imageView = [[UIImageView alloc] init];
+        imageView.contentMode = UIViewContentModeScaleAspectFit;
+        imageView.layer.masksToBounds = YES;
+        [self addSubview:imageView];
+        
+        _imageView = imageView;
+        
 //        NOTE: TODO: textView frame & text inset
 //        --------------------
 //        future implementation for textView frame
@@ -106,6 +116,7 @@
     [self removeTextViewObservers];
     _bubbleImageView = nil;
     _textView = nil;
+    _imageView = nil;
 }
 
 #pragma mark - KVO
@@ -178,6 +189,11 @@
 {
     CGSize bubbleSize = [JSBubbleView neededSizeForText:self.textView.text];
     
+    if (self.imageView.image) {
+        bubbleSize.width = kBubleViewWithImageWidth;
+        bubbleSize.height += kImageHeight;
+    }
+    
     return CGRectIntegral(CGRectMake((self.type == JSBubbleMessageTypeOutgoing ? self.frame.size.width - bubbleSize.width : 0.0f),
                                      kMarginTop,
                                      bubbleSize.width,
@@ -198,12 +214,21 @@
         textX += (self.bubbleImageView.image.capInsets.left / 2.0f);
     }
     
+    CGSize textSize = [JSBubbleView neededSizeForText:self.textView.text];
     CGRect textFrame = CGRectMake(textX,
                                   self.bubbleImageView.frame.origin.y,
                                   self.bubbleImageView.frame.size.width - (self.bubbleImageView.image.capInsets.right / 2.0f),
-                                  self.bubbleImageView.frame.size.height - kMarginTop);
+                                  textSize.height);
     
     self.textView.frame = CGRectIntegral(textFrame);
+    
+    if (self.imageView.image) {
+        CGFloat imageY = textFrame.origin.y + textFrame.size.height;
+        self.imageView.frame = CGRectMake(textX,
+                                          imageY,
+                                          self.bubbleImageView.frame.size.width - (self.bubbleImageView.image.capInsets.right / 2.0f),
+                                          self.bubbleImageView.frame.size.height - imageY);
+    }
 }
 
 #pragma mark - Bubble view
@@ -244,6 +269,16 @@
 + (CGFloat)neededHeightForText:(NSString *)text
 {
     CGSize size = [JSBubbleView neededSizeForText:text];
+    return size.height + kMarginTop + kMarginBottom;
+}
+
++ (CGFloat)neededHeightForText:(NSString *)text withImage:(BOOL)isImage
+{
+    CGSize size = [JSBubbleView neededSizeForText:text];
+    if (isImage) {
+        size.width = kBubleViewWithImageWidth;
+        size.height += kImageHeight;
+    }
     return size.height + kMarginTop + kMarginBottom;
 }
 

@@ -40,6 +40,11 @@
 @property (weak, nonatomic, readonly) UITextView *textView;
 
 /**
+ *  Returns the image view for placing photo in message
+*/
+@property (weak, nonatomic, readonly) UIImageView *imageView;
+
+/**
  *  The font for the text contained in the bubble view. The default value is `[UIFont systemFontOfSize:16.0f]`.
  *
  *  @warning You must set this propety via `UIAppearance` only. *DO NOT set this property directly*.
@@ -81,5 +86,15 @@
  *  @return The height required for the frame of the bubble view in order to display the given text.
  */
 + (CGFloat)neededHeightForText:(NSString *)text;
+
+/**
+ *  Computes and returns the minimum necessary height of a `JSBubbleView` needed to display the given text and image.
+ *
+ *  @param text The text to display in the bubble view.
+ *  @param isImage If message contains image.
+ *
+ *  @return The height required for the frame of the bubble view in order to display the given text.
+ */
++ (CGFloat)neededHeightForText:(NSString *)text withImage:(BOOL)isImage;
 
 @end

@@ -40,4 +40,9 @@
  */
 - (NSDate *)date;
 
+/**
+ *  @return The image in message.
+ */
+- (UIImage *)image;
+
 @end

@@ -35,6 +35,11 @@
  */
 @property (strong, nonatomic) NSDate *date;
 
+/**
+ *  The image in the message. The default value is `nil`.
+ */
+@property (strong, nonatomic) UIImage *image;
+
 #pragma mark - Initialization
 
 /**
@@ -47,6 +52,22 @@
  *  @return An initialized `JSMessage` object or `nil` if the object could not be successfully initialized.
  */
 - (instancetype)initWithText:(NSString *)text
+                      sender:(NSString *)sender
+                        date:(NSDate *)date;
+
+
+/**
+ *  Initializes and returns a message object having the given text, image, sender, and date.
+ *
+ *  @param text   The body text of the message.
+ *  @param image  The image in the message.
+ *  @param sender The name of the user who sent the message.
+ *  @param date   The date that the message was sent.
+ *
+ *  @return An initialized `JSMessage` object or `nil` if the object could not be successfully initialized.
+ */
+- (instancetype)initWithText:(NSString *)text
+                       image:(UIImage *)image
                       sender:(NSString *)sender
                         date:(NSDate *)date;
 
