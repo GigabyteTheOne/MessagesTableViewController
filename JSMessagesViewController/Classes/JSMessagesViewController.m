@@ -63,6 +63,7 @@
 	tableView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 	tableView.dataSource = self;
 	tableView.delegate = self;
+    tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 	[self.view addSubview:tableView];
 	_tableView = tableView;
     
